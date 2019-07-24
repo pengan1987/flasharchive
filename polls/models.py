@@ -5,13 +5,13 @@ from django.db import models
 
 # Create your models here.
 
-class Orders(models.Model):
+class FlashAnim(models.Model):
     id = models.IntegerField(blank=False, null=False, primary_key=True)
-    buyer = models.CharField(max_length=128, blank=True, null=True)
-    seller = models.CharField(max_length=128, blank=True, null=True)
-    trade_date = models.DateTimeField(blank=True, null=True)
-    item = models.CharField(max_length=255, blank=True, null=True)
+    chinese_name = models.CharField(max_length=128, blank=True, null=True)
+    category = models.CharField(max_length=128, blank=True, null=True)
+    english_name = models.CharField(max_length=128, blank=True, null=True)
+    filename = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'orders'
+        db_table = 'flash'

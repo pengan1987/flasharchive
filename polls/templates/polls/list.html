@@ -19,13 +19,14 @@
             max-width: 1024px;
         }
     </style>
+    <title>Flash Archives</title>
 </head>
 
 <body>
     <nav style="position: relative; z-index: 2; width:100%">
         <ul>
             <li>
-                <a href="#" onclick="reset()">TomPDA查询</a>
+                <a href="#" onclick="reset()">Flash存档查询</a>
             </li>
             <li>
                 <a href="http://www.dnbwg.com">电脑博物馆</a>
@@ -36,29 +37,37 @@
         </ul>
     </nav>
     <div id="searchbox">
-        用户 <input id="txtTrader" type="text" name="trader">
-        标题 <input id="txtKeyword" type="text" name="keyword">
-        <button onclick="search()">搜索</button>
-        <button onclick="reset()">重置</button>
+        分类/Category:
+        <a href='#' onclick="changeCatelog('action')">动作/action</a>&nbsp;
+        <a href='#' onclick="changeCatelog('kids')">儿童/kids</a>&nbsp;
+        <a href='#' onclick="changeCatelog('romance')">情感/romance</a>&nbsp;
+        <a href='#' onclick="changeCatelog('humour')">幽默/humour</a>&nbsp;
+        <a href='#' onclick="changeCatelog('music')">音乐/music</a>&nbsp;
+        <a href='#' onclick="changeCatelog('story')">故事/story</a>&nbsp;
+    </br></br>
+        标题/Title <input id="txtKeyword" type="text" name="keyword">
+        <button onclick="search()">搜索/Search</button>
+        <button onclick="reset()">重置/Reset</button>
     </div>
     <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
-                    <th>卖家</th>
-                    <th>买家</th>
-                    <th><a href="{{change_order_link}}">日期</a></th>
-                    <th>标题</th>
+                    <th>Chinese Name</th>
+                    <th>English Name</th>
+                    <th>Category</th>
+                    <th>Play</th>
                 </tr>
             </thead>
             <tbody>
-                {% for order in orders %}
+                {% for anim in flashAnim %}
                 <tr>
                     {# Each "order" is a order model object. #}
-                    <td>{{ order.seller }}</td>
-                    <td>{{ order.buyer }}</td>
-                    <td class="text-nowrap">{{ order.trade_date|date:'Y-m-d h:mA' }}</td>
-                    <td>{{ order.item }}</td>
+                    <td>{{ anim.chinese_name }}</td>
+                    <td>{{ anim.english_name }}</td>
+         
+                    <td>{{ anim.category }}</td>
+                    <td><a href="static/player.html?category={{anim.category}}&filename={{anim.filename}}">Play</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -66,16 +75,16 @@
     </div>
     <div class="table-responsive">
         <ul class="pagination">
-            {% if orders.has_previous %}
+            {% if flashAnim.has_previous %}
             <li class="page-item ">
                 <a class="page-link" href="?page=1">««</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ orders.previous_page_number }}">«</a>
+                <a class="page-link" href="?page={{ flashAnim.previous_page_number }}">«</a>
             </li>
             {% endif %}
             {% for pg in page_range %}
-            {% if orders.number == pg %}
+            {% if flashAnim.number == pg %}
             <li class="page-item active">
                 <a class="page-link" href="?page={{pg}}{{paging_link_tail}}">{{pg}}</a>
             </li>
@@ -85,12 +94,12 @@
             </li>
             {% endif %}
             {% endfor %}
-            {% if orders.has_next %}
+            {% if flashAnim.has_next %}
             <li class="page-item ">
-                <a class="page-link" href="?page={{ orders.next_page_number }}{{paging_link_tail}}">»</a>
+                <a class="page-link" href="?page={{ flashAnim.next_page_number }}{{paging_link_tail}}">»</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ orders.paginator.num_pages }}{{paging_link_tail}}">»»</a>
+                <a class="page-link" href="?page={{ flashAnim.paginator.num_pages }}{{paging_link_tail}}">»»</a>
             </li>
             {% endif %}
         </ul>
@@ -108,24 +117,30 @@
             console.log('Query variable %s not found', variable);
         }
         function search() {
-            var trader = document.getElementById("txtTrader").value.trim();
             var keyword = document.getElementById("txtKeyword").value.trim();
             var newSearch = "";
-            if (trader && trader.length > 0) {
-                newSearch += "&trader=" + trader;
-            }
+          
             if (keyword && keyword.length > 0) {
                 newSearch += "&keyword=" + keyword;
             }
             newSearch.replace('&', '?')
             window.location.search = newSearch;
-            document.getElementById("txtTrader").value = '';
             document.getElementById("txtKeyword").value = '';
         }
         function reset() {
-            document.getElementById("txtTrader").value = '';
             document.getElementById("txtKeyword").value = '';
             window.location.search = "";
+        }
+        function changeCatelog(catename){
+            var newSearch = "";
+
+            if (catename && catename.length >0){
+                newSearch += "&category=" + catename;
+            }
+            newSearch.replace('&', '?')
+            window.location.search = newSearch;
+            document.getElementById("txtKeyword").value = '';
+
         }
     </script>
 
