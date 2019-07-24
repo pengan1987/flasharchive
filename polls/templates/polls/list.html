@@ -1,0 +1,149 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://dnbwg.oss-cn-hongkong.aliyuncs.com/base.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-css-only@4.1.1/css/bootstrap.min.css">
+    <style>
+        .table th,
+        .table td {
+            padding: 8px;
+            font-size: 14px;
+            line-height: 20px
+        }
+
+        .table-responsive,  #searchbox {
+            display: block;
+            margin: 10px auto;
+            width: 90%;
+            max-width: 1024px;
+        }
+    </style>
+    <title>Flash Archives</title>
+</head>
+
+<body>
+    <nav style="position: relative; z-index: 2; width:100%">
+        <ul>
+            <li>
+                <a href="#" onclick="reset()">Flash存档查询</a>
+            </li>
+            <li>
+                <a href="http://www.dnbwg.com">电脑博物馆</a>
+            </li>
+            <li>
+                <a href="https://zhuanlan.zhihu.com/retrocomputing">知乎专栏</a>
+            </li>
+        </ul>
+    </nav>
+    <div id="searchbox">
+        分类/Category:
+        <a href='#' onclick="changeCatelog('action')">动作/action</a>&nbsp;
+        <a href='#' onclick="changeCatelog('kids')">儿童/kids</a>&nbsp;
+        <a href='#' onclick="changeCatelog('romance')">情感/romance</a>&nbsp;
+        <a href='#' onclick="changeCatelog('humour')">幽默/humour</a>&nbsp;
+        <a href='#' onclick="changeCatelog('music')">音乐/music</a>&nbsp;
+        <a href='#' onclick="changeCatelog('story')">故事/story</a>&nbsp;
+    </br></br>
+        标题/Title <input id="txtKeyword" type="text" name="keyword">
+        <button onclick="search()">搜索/Search</button>
+        <button onclick="reset()">重置/Reset</button>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Chinese Name</th>
+                    <th>English Name</th>
+                    <th>Category</th>
+                    <th>Play</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for anim in flashAnim %}
+                <tr>
+                    {# Each "order" is a order model object. #}
+                    <td>{{ anim.chinese_name }}</td>
+                    <td>{{ anim.english_name }}</td>
+         
+                    <td>{{ anim.category }}</td>
+                    <td><a href="static/player.html?category={{anim.category}}&filename={{anim.filename}}">Play</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <ul class="pagination">
+            {% if flashAnim.has_previous %}
+            <li class="page-item ">
+                <a class="page-link" href="?page=1">««</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ flashAnim.previous_page_number }}">«</a>
+            </li>
+            {% endif %}
+            {% for pg in page_range %}
+            {% if flashAnim.number == pg %}
+            <li class="page-item active">
+                <a class="page-link" href="?page={{pg}}{{paging_link_tail}}">{{pg}}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{pg}}{{paging_link_tail}}">{{pg}}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            {% if flashAnim.has_next %}
+            <li class="page-item ">
+                <a class="page-link" href="?page={{ flashAnim.next_page_number }}{{paging_link_tail}}">»</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ flashAnim.paginator.num_pages }}{{paging_link_tail}}">»»</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    <script type="text/javascript">
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split('&');
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split('=');
+                if (decodeURIComponent(pair[0]) == variable) {
+                    return decodeURIComponent(pair[1]);
+                }
+            }
+            console.log('Query variable %s not found', variable);
+        }
+        function search() {
+            var keyword = document.getElementById("txtKeyword").value.trim();
+            var newSearch = "";
+          
+            if (keyword && keyword.length > 0) {
+                newSearch += "&keyword=" + keyword;
+            }
+            newSearch.replace('&', '?')
+            window.location.search = newSearch;
+            document.getElementById("txtKeyword").value = '';
+        }
+        function reset() {
+            document.getElementById("txtKeyword").value = '';
+            window.location.search = "";
+        }
+        function changeCatelog(catename){
+            var newSearch = "";
+
+            if (catename && catename.length >0){
+                newSearch += "&category=" + catename;
+            }
+            newSearch.replace('&', '?')
+            window.location.search = newSearch;
+            document.getElementById("txtKeyword").value = '';
+
+        }
+    </script>
+
+</body>
+
+</html>

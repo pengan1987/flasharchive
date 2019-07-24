@@ -1,0 +1,80 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Flash Archive - Player</title>
+    <link rel="stylesheet" href="https://dnbwg.oss-cn-hongkong.aliyuncs.com/base.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@4.0.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-css-only@4.1.1/css/bootstrap.min.css">
+    <style>
+        #player_container {
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            padding: 0;
+            width: 640px;
+
+        }
+
+        #playerObj {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 8px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <nav style="position: relative; z-index: 2; width:100%">
+        <ul>
+            <li>
+                <a href="/">Flash存档查询</a>
+            </li>
+            <li>
+                <a href="http://www.dnbwg.com">电脑博物馆</a>
+            </li>
+            <li>
+                <a href="https://zhuanlan.zhihu.com/retrocomputing">知乎专栏</a>
+            </li>
+        </ul>
+    </nav>
+    <div id="player_container">
+        <a href="javascript:history.back()">返回目录/Back</a>
+
+    </div>
+    <script type="text/javascript">
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split('&');
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split('=');
+                if (decodeURIComponent(pair[0]) == variable) {
+                    return decodeURIComponent(pair[1]);
+                }
+            }
+            console.log('Query variable %s not found', variable);
+        }
+        function loadFlash() {
+            var serverBase = "https://famicn-1255835060.file.myqcloud.com/flash/";
+            var folder = getQueryVariable("category");
+            var filename = getQueryVariable("filename");
+            var link = serverBase + folder + "/" + filename;
+
+            var node = document.createElement('object');
+            node.id = "playerObj"
+            node.type = "application/x-shockwave-flash"
+            node.data = link
+            node.width = "640"
+            node.height = "480"
+            document.getElementById("player_container").appendChild(node);
+        }
+
+        window.onload = loadFlash;
+
+    </script>
+
+</body>
+
+</html>
