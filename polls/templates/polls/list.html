@@ -79,10 +79,10 @@
         <ul class="pagination">
             {% if flashAnim.has_previous %}
             <li class="page-item ">
-                <a class="page-link" href="?page=1">««</a>
+                <a class="page-link" href="?page=1{{paging_link_tail}}">««</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ flashAnim.previous_page_number }}">«</a>
+                <a class="page-link" href="?page={{ flashAnim.previous_page_number }}{{paging_link_tail}}">«</a>
             </li>
             {% endif %}
             {% for pg in page_range %}
