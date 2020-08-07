@@ -69,7 +69,8 @@
                     <td>{{ anim.english_name }}</td>
          
                     <td>{{ anim.category }}</td>
-                    <td><a href="static/player.html?category={{anim.category}}&filename={{anim.filename}}">Play</a></td>
+                    <td><a href="static/player.html?category={{anim.category}}&filename={{anim.filename}}">Play</a>&nbsp;
+                    <a href="static/ruffle.html?file={{anim.category}}/{{anim.filename}}">Ruffle</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -79,10 +80,10 @@
         <ul class="pagination">
             {% if flashAnim.has_previous %}
             <li class="page-item ">
-                <a class="page-link" href="?page=1{{paging_link_tail}}">««</a>
+                <a class="page-link" href="?page=1">««</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="?page={{ flashAnim.previous_page_number }}{{paging_link_tail}}">«</a>
+                <a class="page-link" href="?page={{ flashAnim.previous_page_number }}">«</a>
             </li>
             {% endif %}
             {% for pg in page_range %}
