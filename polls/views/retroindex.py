@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from models import FlashAnim
+from ..models import FlashAnim
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from django.db.models import Q
@@ -11,7 +11,7 @@ import logging
 # Create your views here.
 
 
-def index(request):
+def retroindex(request):
     flashAnim_list = FlashAnim.objects.all()
 
     page = request.GET.get('page')
@@ -61,7 +61,11 @@ def index(request):
 
     page_range = list(paginator.page_range)[start_index:end_index]
 
-    return render(request, 'polls/list.html', {'flashAnim': flashAnim,
+    if not category:
+        category = ""
+
+    return render(request, 'polls/list_retro.html', {'flashAnim': flashAnim,
+                                               "category": category,
                                                "page_range": page_range,
                                                "paging_link_tail": paging_link_tail,
                                                "change_order_link": change_order_link})
