@@ -3,45 +3,39 @@
 <head>
 
     <title>Flash Archives</title>
+	<META http-equiv="Content-type" content="text/html; charset=utf-8">
 
 </head>
 
 <body>
-    <table bgcolor="#CCCCCC">
-        <tr>
-            <td>
-                <a href="#" onclick="reset()">Flash存档查询</a>
-            </td>
-            <td>
-                <a href="http://www.dnbwg.com">电脑博物馆</a>
-            </td>
-            <td>
-                <a href="https://zhuanlan.zhihu.com/retrocomputing">知乎专栏</a>
-            </td>
-        </tr>
-    </table>
+    <h1>Flash存档查询{%if category%}&nbsp;<small>{{chinese_category}}频道</small>{%endif%}</h1>
+    <hr>
     <div id="searchbox">
-        分类/Category:
-        <a href='retro'>全部/all</a>&nbsp;
-        <a href='retro?category=action'>动作/action</a>&nbsp;
-        <a href='retro?category=kids'>儿童/kids</a>&nbsp;
-        <a href='retro?category=romance'>情感/romance</a>&nbsp;
-        <a href='retro?category=humour'>幽默/humour</a>&nbsp;
-        <a href='retro?category=music'>音乐/music</a>&nbsp;
-        <a href='retro?category=story'>故事/story</a>&nbsp;
-        </br></br>
-        <form method="get" action="/retro">
-            标题/Title <input id="txtKeyword" type="text" name="keyword">
+        
+        <table border=1 color="#000000">
+            <tr>
+                <td>分类</td>
+                <td><a href='{{urlbase}}'>全部</a></td>
+                <td><a href='{{urlbase}}?category=action'>动作</a></td>
+                <td><a href='{{urlbase}}?category=kids'>儿童</a></td>
+                <td><a href='{{urlbase}}?category=romance'>情感</a></td>
+                <td><a href='{{urlbase}}?category=humour'>幽默</a></td>
+                <td><a href='{{urlbase}}?category=music'>音乐</a></td>
+                <td><a href='{{urlbase}}?category=story'>故事</a></td>
+            </tr>
+        </table>
+        <form method="get" action="{{urlbase}}">
+            <input id="txtKeyword" type="text" name="keyword">
             <input type="hidden" name="category" value="{{category}}">
-            
-            <input type="submit" name="Submit" value="搜索/Search">
+
+            <input type="submit" name="Submit" value="搜索">
 
             <!-- <button onclick="reset()">重置/Reset</button> -->
         </form>
-        
+
     </div>
     <div class="table-responsive">
-        <table class="table" border=1 cellspacing=0>
+        <table class="table" border=1>
             <thead>
                 <tr>
                     <th>中文名称</th>
@@ -57,8 +51,8 @@
                     <td>{{ anim.chinese_name }}</td>
                     <td>{{ anim.english_name }}</td>
 
-                    <td>{{ anim.category }}</td>
-                    <td><a href="/retro/player?category={{anim.category}}&filename={{anim.filename}}">播放</a>
+                    <td>{{ anim.chinese_category }}</td>
+                    <td><a href="{{urlbase}}/player?category={{anim.category}}&filename={{anim.filename}}">播放</a>
 
                     </td>
                 </tr>
@@ -97,45 +91,7 @@
             {% endif %}
         </tr>
     </table>
-    <script type="text/javascript">
-        function getQueryVariable(variable) {
-            var query = window.location.search.substring(1);
-            var vars = query.split('&');
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split('=');
-                if (decodeURIComponent(pair[0]) == variable) {
-                    return decodeURIComponent(pair[1]);
-                }
-            }
-            console.log('Query variable %s not found', variable);
-        }
-        function search() {
-            var keyword = document.getElementById("txtKeyword").value.trim();
-            var newSearch = "";
 
-            if (keyword && keyword.length > 0) {
-                newSearch += "&keyword=" + keyword;
-            }
-            newSearch.replace('&', '?')
-            window.location.search = newSearch;
-            document.getElementById("txtKeyword").value = '';
-        }
-        function reset() {
-            document.getElementById("txtKeyword").value = '';
-            window.location.search = "";
-        }
-        function changeCatelog(catename) {
-            var newSearch = "";
-
-            if (catename && catename.length > 0) {
-                newSearch += "&category=" + catename;
-            }
-            newSearch.replace('&', '?')
-            window.location.search = newSearch;
-            document.getElementById("txtKeyword").value = '';
-
-        }
-    </script>
 
 </body>
 

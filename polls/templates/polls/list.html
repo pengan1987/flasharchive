@@ -12,7 +12,8 @@
             line-height: 20px
         }
 
-        .table-responsive,  #searchbox {
+        .table-responsive,
+        #searchbox {
             display: block;
             margin: 10px auto;
             width: 90%;
@@ -20,7 +21,7 @@
         }
     </style>
     <title>Flash Archives</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 </head>
 
@@ -46,7 +47,7 @@
         <a href='#' onclick="changeCatelog('humour')">幽默/humour</a>&nbsp;
         <a href='#' onclick="changeCatelog('music')">音乐/music</a>&nbsp;
         <a href='#' onclick="changeCatelog('story')">故事/story</a>&nbsp;
-    </br></br>
+        </br></br>
         标题/Title <input id="txtKeyword" type="text" name="keyword">
         <button onclick="search()">搜索/Search</button>
         <button onclick="reset()">重置/Reset</button>
@@ -67,10 +68,12 @@
                     {# Each "order" is a order model object. #}
                     <td>{{ anim.chinese_name }}</td>
                     <td>{{ anim.english_name }}</td>
-         
+
                     <td>{{ anim.category }}</td>
-                    <td><a href="static/player.html?category={{anim.category}}&filename={{anim.filename}}">Play</a>&nbsp;
-                    <a href="http://famicn-1255835060.file.myqcloud.com/ruffle/index.html?file=/flash/{{anim.category}}/{{anim.filename}}">Ruffle</a></td>
+                    <td>
+                        <a href="http://famicn-1255835060.file.myqcloud.com/ruffle/index.html?file=/flash/{{anim.category}}/{{anim.filename}}">Play</a>
+                        <!-- <a href="static/player.html?category={{anim.category}}&filename={{anim.filename}}">Old Flash Player</a> -->
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -122,7 +125,7 @@
         function search() {
             var keyword = document.getElementById("txtKeyword").value.trim();
             var newSearch = "";
-          
+
             if (keyword && keyword.length > 0) {
                 newSearch += "&keyword=" + keyword;
             }
@@ -134,10 +137,10 @@
             document.getElementById("txtKeyword").value = '';
             window.location.search = "";
         }
-        function changeCatelog(catename){
+        function changeCatelog(catename) {
             var newSearch = "";
 
-            if (catename && catename.length >0){
+            if (catename && catename.length > 0) {
                 newSearch += "&category=" + catename;
             }
             newSearch.replace('&', '?')

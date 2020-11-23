@@ -12,6 +12,7 @@ import logging
 
 
 def retroindex(request):
+    urlbase = "/retro"
     flashAnim_list = FlashAnim.objects.all()
 
     page = request.GET.get('page')
@@ -40,9 +41,13 @@ def retroindex(request):
         flashAnim_list = flashAnim_list.filter(category__startswith=category)
 
     if keyword:
-        flashAnim_list = flashAnim_list.filter(Q(english_name__icontains=keyword)|Q(chinese_name__icontains=keyword))
+        flashAnim_list = flashAnim_list.filter(
+            Q(english_name__icontains=keyword) | Q(chinese_name__icontains=keyword))
 
-    paginator = Paginator(flashAnim_list, 50)
+    paginator = Paginator(flashAnim_list, 25)
+
+    chineseCate = {"action": "动作", "kids": "儿童", "romance": "情感",
+                   "humour": "幽默", "music": "音乐", "story": "故事"}
 
     try:
         flashAnim = paginator.page(page)
@@ -52,7 +57,8 @@ def retroindex(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         flashAnim = paginator.page(paginator.num_pages)
-
+    for anim in flashAnim:
+        anim.chinese_category = chineseCate.get(anim.category)
     index = flashAnim.number - 1
     max_index = len(paginator.page_range)
 
@@ -63,9 +69,13 @@ def retroindex(request):
 
     if not category:
         category = ""
-
-    return render(request, 'polls/list_retro.html', {'flashAnim': flashAnim,
-                                               "category": category,
-                                               "page_range": page_range,
-                                               "paging_link_tail": paging_link_tail,
-                                               "change_order_link": change_order_link})
+        chinese_category = ""
+    else:
+        chinese_category = chineseCate[category]
+    return render(request, 'polls/list_retro.html', {"flashAnim": flashAnim,
+                                                     "urlbase": urlbase,
+                                                     "category": category,
+                                                     "chinese_category": chinese_category,
+                                                     "page_range": page_range,
+                                                     "paging_link_tail": paging_link_tail,
+                                                     "change_order_link": change_order_link})

@@ -25,7 +25,7 @@ SECRET_KEY = 'mf51#x%(dc#%*mx&*fxu7_l#5-u*(hdz!wbnz^95lgkm!yc#am'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['flasharchive.azurewebsites.net','192.168.1.122','127.0.0.1']
+ALLOWED_HOSTS = ['flasharchive.azurewebsites.net','192.168.0.247','127.0.0.1']
 
 
 # Application definition
