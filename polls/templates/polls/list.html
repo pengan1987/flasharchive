@@ -58,6 +58,8 @@
                 <tr>
                     <th>Chinese Name</th>
                     <th>English Name</th>
+                    <th>Author</th>
+                    <th>Year</th>
                     <th>Category</th>
                     <th>Play</th>
                 </tr>
@@ -67,12 +69,15 @@
                 <tr>
                     {# Each "order" is a order model object. #}
                     <td>{{ anim.chinese_name }}</td>
-                    <td>{{ anim.english_name }}</td>
-
+                    <td>{{ anim.english_name|default_if_none:anim.chinese_name}}</td>
+                    <td>{{ anim.author|default_if_none:""}}</td>
+                    <td>{{ anim.year|default_if_none:""}}</td>
                     <td>{{ anim.category }}</td>
                     <td>
-                        <a href="http://famicn-1255835060.file.myqcloud.com/ruffle/index.html?file=/flash/{{anim.category}}/{{anim.filename}}">Play</a>
-                        <!-- <a href="static/player.html?category={{anim.category}}&filename={{anim.filename}}">Old Flash Player</a> -->
+                        <a
+                            href="http://famicn-1255835060.file.myqcloud.com/ruffle/index.html?file=/flash/{{anim.category}}/{{anim.filename}}">Play</a>&nbsp;
+                        <a href="static/player.html?category={{anim.category}}&filename={{anim.filename}}">Older
+                            Browser</a>
                     </td>
                 </tr>
                 {% endfor %}

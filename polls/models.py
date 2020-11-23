@@ -11,6 +11,9 @@ class FlashAnim(models.Model):
     category = models.CharField(max_length=128, blank=True, null=True)
     english_name = models.CharField(max_length=128, blank=True, null=True)
     filename = models.CharField(max_length=255, blank=True, null=True)
+    author = models.CharField(max_length=255, blank=True, null=True)
+    year = models.IntegerField(blank=True, null=True)
+    edit_permission = models.IntegerField(blank=False, null=False)
 
     class Meta:
         managed = False
