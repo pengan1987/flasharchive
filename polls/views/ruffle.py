@@ -20,7 +20,7 @@ def ruffle(request):
     chinese_name = flashAnim.chinese_name
     english_name = flashAnim.english_name
 
-    playaddress = "http://famicn-1255835060.file.myqcloud.com/flash/"+category+"/"+filename
+    playaddress = "https://famicn-1255835060.file.myqcloud.com/flash/"+category+"/"+filename
 
     return render(request, 'polls/ruffle.html', {'playaddress': playaddress,
                                                  'chinese_name': chinese_name,

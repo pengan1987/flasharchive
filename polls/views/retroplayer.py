@@ -16,6 +16,6 @@ def retroplayer(request):
     filename = request.GET.get('filename')
     category = request.GET.get('category')
 
-    playaddress = "http://famicn-1255835060.file.myqcloud.com/flash/"+category+"/"+filename
+    playaddress = "https://famicn-1255835060.file.myqcloud.com/flash/"+category+"/"+filename
     
     return render(request, 'polls/player_retro.html', {'playaddress': playaddress})
