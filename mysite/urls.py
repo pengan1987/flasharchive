@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
+from django.views.generic.base import RedirectView
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'retro', include('polls.retrourls')),
     url(r'player/', include('polls.urls')),
     url(r'^$', include('polls.urls')),
+    url(r'^favicon\.ico$', RedirectView.as_view(url=staticfiles_storage.url('favicon.ico'))),
 ]

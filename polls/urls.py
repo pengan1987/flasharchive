@@ -6,4 +6,5 @@ urlpatterns = [
     url(r'^ruffle', views.ruffle),
     url(r'^list', views.index),
     url(r'', views.index),
+
 ]
